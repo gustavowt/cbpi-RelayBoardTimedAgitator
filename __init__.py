@@ -21,23 +21,19 @@ class RelayBoardTimedAgitator(ActorBase):
     gpio = Property.Select("GPIO", options=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27], description="GPIO to which the actor is connected")
     ta_start = Property.Number("Running Timer", configurable=True, description="Defines how long the Agitator should run before pause.")
     ta_stop  = Property.Number("Pause Timer", configurable=True, description="Defines how long the Agitator should stop before run again.")
-    is_relayboard  = Property.Boolean("Act as Relayboard", configurable=True, description="Check this if you are using a Relayboard logic")
-    started = 0
-    gpio_on = 0 if is_relayboard else 1
-    gpio_off = 1 if is_relayboard else 0
 
     def init(self):
         GPIO.setup(int(self.gpio), GPIO.OUT)
-        GPIO.output(int(self.gpio), gpio_off)
+        GPIO.output(int(self.gpio), 1)
 
     def on(self, power=0):
         print ("GPIO ON %s" % str(self.gpio))
-        GPIO.output(int(self.gpio), gpio_on)
+        GPIO.output(int(self.gpio), 0)
 
 
     def off(self):
         print ("GPIO OFF")
-        GPIO.output(int(self.gpio), gpio_off)
+        GPIO.output(int(self.gpio), 1)
 
 
     def timedAggitator (self):
